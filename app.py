@@ -76,7 +76,7 @@ def prepare_graph(m, glon, glat, index):
 @app.route('/data')
 def data():
     index = int(request.args.get('index')) if request.args.get('index') else 0 
-    fileh = open_file("med_may2015_2016.nc", mode = "r")
+    fileh = open_file("files/med_may2015_2016.nc", mode = "r")
 
     m, glon, glat = prepare_arrays(fileh, index)
     graph = prepare_graph(m, glon, glat, index)
