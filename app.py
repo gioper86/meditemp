@@ -14,7 +14,7 @@ app.debug = True
 
 def prepare_arrays(fileh, index):
     m = fileh.root.sst[index]    
-    #np.place(m, m<0, [np.nan])
+    #np.place(m, m<0, [10000])
 
     glon = []
     glat = []
@@ -45,16 +45,16 @@ def prepare_graph(m, glon, glat, index):
                     z=m,
                     x=glon,
                     y=glat,
-                    colorscale="Jet",
+                    colorscale='Jet',
                     #zauto=False,  # custom contour levels
-                    #zmin=-5,      # first contour level
-                    #zmax=32        # last contour level  => colorscale is centered about 0
+                    #zmin=10,      # first contour level
+                    #zmax=32,        # last contour level  => colorscale is centered about 0
                     type='contour',
                     contours=dict(
                         start=10,
                         end=32,
-                        size=1
-                    )
+                        size=1.5
+                    )  
                 )
             ],
             layout=dict(
@@ -69,9 +69,6 @@ def prepare_graph(m, glon, glat, index):
         )
 
     return graph
-
-
-
 
 @app.route('/data')
 def data():
