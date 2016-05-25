@@ -86710,6 +86710,7 @@ function interp2d(z, emptyPoints, savedInterpZ) {
     // poisson equation solver with zero-derivative BC at edges
     // amazingly, this just amounts to repeatedly averaging all the existing
     // nearest neighbors (at least if we don't take x/y scaling into account)
+
     var maxFractionalChange = 1,
         i,
         thisPt;
@@ -86726,11 +86727,13 @@ function interp2d(z, emptyPoints, savedInterpZ) {
     }
 
     // we're don't need to iterate lone empties - remove them
+    /*
     for(i = 0; i < emptyPoints.length; i++) {
         if(emptyPoints[i][2] < 4) break;
     }
     // but don't remove these points from the original array,
     // we'll use them for masking, so make a copy.
+    
     emptyPoints = emptyPoints.slice(i);
 
     for(i = 0; i < 100 && maxFractionalChange > INTERPTHRESHOLD; i++) {
@@ -86739,7 +86742,7 @@ function interp2d(z, emptyPoints, savedInterpZ) {
     }
     if(maxFractionalChange > INTERPTHRESHOLD) {
         console.log('interp2d didn\'t converge quickly', maxFractionalChange);
-    }
+    }*/
 
     return z;
 }

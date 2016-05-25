@@ -14,7 +14,7 @@ app.debug = True
 
 def prepare_arrays(fileh, index):
     m = fileh.root.sst[index]    
-    #np.place(m, m<0, [10000])
+    np.place(m, m<0, [np.nan])
 
     glon = []
     glat = []
@@ -52,7 +52,7 @@ def prepare_graph(m, glon, glat, index):
                     type='contour',
                     contours=dict(
                         start=10,
-                        end=32,
+                        end=30,
                         size=1.5
                     )  
                 )
@@ -63,7 +63,7 @@ def prepare_graph(m, glon, glat, index):
                 autosize=False,
                 width=1000,
                 height=500,
-                plot_bgcolor='#FADD9B'
+                plot_bgcolor='#F7F5E4'
             ),
             index=index
         )
@@ -89,4 +89,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(port=9999)
+    app.run(host='0.0.0.0', port=9999)

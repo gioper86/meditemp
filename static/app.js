@@ -16,13 +16,13 @@ app.controller('ChartCtrl', function($scope, $http) {
 
 	$scope.init = function() {
 		
-        $http.get('http://localhost:9999/data').then(function(response) {
+        $http.get('/data').then(function(response) {
 			$scope.chart = response.data
 		})
 	}
 
     $scope.forward = function(newindex) {
-        $http.get('http://localhost:9999/data?index='+newindex).then(function(response) {
+        $http.get('/data?index='+newindex).then(function(response) {
             $scope.chart = response.data
         })       
     }
@@ -102,74 +102,3 @@ app.directive('plotly', [
         };
     }
 ]);
-
-
-
-
-app.directive("matrix", function ()
-  {
-    return {
-        restrict: 'E',
-        scope: {
-            matx: '='
-        },
-        template: "<canvas id='pgcanvas' width='1000' height='1000' />",
-        link: function(scope, element, attrs) {
-           console.log(element);
-           scope.canvas = element.find('canvas')[0];
-           scope.context = scope.canvas.getContext('2d');
-
-            scope.$watchGroup([
-                function() {
-                    return scope.matx;
-                }                 
-            ], function(newValue, oldValue) {
-                if (angular.equals(newValue, oldValue)) return;
-                onUpdate()
-            }, true);
-
-            function getColor(x, y) {
-                if(scope.matx[x][y] <10) {
-                    return "#0033cc"
-                }
-                if(scope.matx[x][y] > 10 && scope.matx[x][y] < 20) {
-                    return "#66ccff"
-                }
-                if(scope.matx[x][y] > 15 && scope.matx[x][y] < 20) {
-                    return "#99ff99"
-                }  
-                if(scope.matx[x][y] > 20 && scope.matx[x][y] < 25) {
-                    return "#ffcc66"
-                }
-                if(scope.matx[x][y] > 25 && scope.matx[x][y] < 30) {
-                    return "#ff6600"
-                } 
-
-                return "#b32d00"              
-
-            }
-
-            function onUpdate() {
-                /*
-                 scope.context.mozImageSmoothingEnabled = false;
-                 scope.context.webkitImageSmoothingEnabled = false;
-                 scope.context.msImageSmoothingEnabled = false;
-                 scope.context.imageSmoothingEnabled = false;*/
-                //scope.context.scale(5,5);
-                for (var x = 0; x < scope.matx.length; ++x) {
-                    for (var y = 0; y < scope.matx[0].length; ++y) {  
-                        dim = 1                      
-                        if (scope.matx[x][y] != null) {
-                            scope.context.fillStyle = getColor(x,y);
-                        } else {
-                            scope.context.fillStyle = "#000"
-                        } 
-                        scope.context.fillRect(x*dim, y*dim, dim, dim);                      
-                    }
-                }
-            }
-
-        }        
-    };
-});
-
