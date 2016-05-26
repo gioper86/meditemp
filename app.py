@@ -7,13 +7,16 @@ import pandas as pd
 import numpy as np
 import pyportal.connector as pypor
 from tables import *
+from json import encoder
 
+encoder.c_make_encoder = None
+encoder.FLOAT_REPR = lambda o: format(o, '.2f')
 
 app = Flask(__name__)
 app.debug = True
 
 def prepare_arrays(fileh, index):
-    m = fileh.root.sst[index]    
+    m = fileh.root.sst[index]
     np.place(m, m<0, [np.nan])
 
     glon = []
@@ -54,11 +57,12 @@ def prepare_graph(m, glon, glat, index):
                         start=10,
                         end=30,
                         size=1.5
-                    )  
+                    ),
+                    hoverinfo="all"
                 )
             ],
             layout=dict(
-                title="Meditemp",
+                title="Mediterranean sea surface temperature",
                 hovermode="closest",        # highlight closest point on hover
                 autosize=False,
                 width=1000,

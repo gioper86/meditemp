@@ -36,7 +36,7 @@ app.directive('plotly', [
     function($window) {
         return {
             restrict: 'E',
-            template: '<div></div>',
+            template: '<div id="chart"></div><div id="hover"></div>',
             scope: {
                 data: '=',
                 layout: '=',
@@ -44,6 +44,7 @@ app.directive('plotly', [
             },
             link: function(scope, element) {
                 var graph = element[0].children[0];
+                var hoverInfo = element[0].children[1];
                 var initialized = false;
 
                 function onUpdate() {
@@ -64,6 +65,19 @@ app.directive('plotly', [
                     graph.data = scope.data;
                     Plotly.redraw(graph);
                     Plotly.Plots.resize(graph);
+
+                    /*
+                    graph.on('plotly_hover', function(data){
+                        console.log(data)
+                        var infotext = data.points.map(function(d){
+                          return ('Lat= '+d.x+', Lon= '+d.y+' Temp='+d.z);
+                        });
+                      
+                        hoverInfo.innerHTML = infotext.join('<br/>');
+                    })
+                     .on('plotly_unhover', function(data){
+                        hoverInfo.innerHTML = '';
+                    })*/
                 }
 
                 function onResize() {
