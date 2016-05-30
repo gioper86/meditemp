@@ -8,6 +8,7 @@ import numpy as np
 import pyportal.connector as pypor
 from tables import *
 from json import encoder
+import datetime as dt
 
 encoder.c_make_encoder = None
 encoder.FLOAT_REPR = lambda o: format(o, '.2f')
@@ -40,7 +41,13 @@ def prepare_arrays(fileh, index):
 
     return (m, glon, glat)
 
-def prepare_graph(m, glon, glat, index):
+def prepare_graph(m, glon, glat, index, times):
+
+    timeinit = dt.datetime(1800,1,1)
+
+    current = (timeinit+dt.timedelta(days=times[index])).strftime("%d %B %Y")
+    first = (timeinit+dt.timedelta(days=times[0])).strftime("%d %B %Y")
+    last = (timeinit+dt.timedelta(days=times[len(times)-1])).strftime("%d %B %Y")
 
     graph = dict(
             data=[
@@ -56,19 +63,21 @@ def prepare_graph(m, glon, glat, index):
                     contours=dict(
                         start=10,
                         end=30,
-                        size=1.5
-                    ),
-                    hoverinfo="all"
+                        size=1.5,
+                        coloring='heatmap'
+                    )
                 )
             ],
             layout=dict(
-                title="Mediterranean sea surface temperature",
+                title="Mediterranean sea surface temperature " + current,
                 hovermode="closest",        # highlight closest point on hover
                 autosize=False,
                 width=1000,
                 height=500,
                 plot_bgcolor='#F7F5E4'
             ),
+            firstDay=first,
+            lastDay=last,
             index=index
         )
 
@@ -80,7 +89,7 @@ def data():
     fileh = open_file("files/med_may2015_2016.nc", mode = "r")
 
     m, glon, glat = prepare_arrays(fileh, index)
-    graph = prepare_graph(m, glon, glat, index)
+    graph = prepare_graph(m, glon, glat, index, fileh.root.time)
     graphJSON = json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder)
     
     fileh.close()

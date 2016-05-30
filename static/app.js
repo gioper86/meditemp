@@ -1,4 +1,4 @@
-var app = angular.module('analysis', ['ngRoute']);
+var app = angular.module('analysis', ['ngRoute', 'ui.select']);
 app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
     $routeProvider.when('/', {
         controller: 'ChartCtrl',
@@ -11,10 +11,15 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 }]);
 
 app.controller('ChartCtrl', function($scope, $http) {
-	$scope.message = 'ciao'
 
+    $scope.selectableDays = []
+    $scope.selectedItem = $scope.selectableDays[0];
 
 	$scope.init = function() {
+
+        for (var i = 1; i <= 31; i++) {
+            $scope.selectableDays.push(i)
+        }
 		
         $http.get('/data').then(function(response) {
 			$scope.chart = response.data

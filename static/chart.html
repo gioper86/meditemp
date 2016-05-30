@@ -1,10 +1,22 @@
-<div>
+<div class="container">
     <div>
         <plotly data="chart.data" layout="chart.layout" options="'{}'" />
     </div>
     <div>
-        {{chart.index}}
-        <button ng-click="forward(chart.index-7)">backward</button>
-        <button ng-click="forward(chart.index+7)">forward</button>
+        <p><b>First day:</b> {{chart.firstDay}}    <b>Last day:</b> {{chart.lastDay}}</p>
+    </div>
+    <div>
+        <form class="form-inline">
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="forward(chart.index-7)">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-primary" ng-click="forward(chart.index+7)">
+                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                </button>
+                <label>Step (in days): 7</label>
+
+            <div>
+        </form> 
     </div>
 </div>
