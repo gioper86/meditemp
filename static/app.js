@@ -13,13 +13,15 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 app.controller('ChartCtrl', function($scope, $http) {
 
     $scope.selectableDays = []
-    $scope.selectedItem = $scope.selectableDays[0];
 
+    $scope.selectedStep = null
+    
 	$scope.init = function() {
 
-        for (var i = 1; i <= 31; i++) {
+        for (var i = 1; i <= 30; i++) {
             $scope.selectableDays.push(i)
         }
+        $scope.selectedStep = $scope.selectableDays[0];
 		
         $http.get('/data').then(function(response) {
 			$scope.chart = response.data

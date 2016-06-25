@@ -8,14 +8,15 @@
     <div>
         <form class="form-inline">
             <div class="form-group">
-                <button class="btn btn-primary" ng-click="forward(chart.index-7)">
+                <button class="btn btn-primary" ng-click="forward(chart.index-selectedStep)">
                     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-primary" ng-click="forward(chart.index+7)">
+                <button class="btn btn-primary" ng-click="forward(chart.index+selectedStep)">
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </button>
-                <label>Step (in days): 7</label>
-
+                <label>Step (in days):</label>
+                <select class="form-control" ng-selected="selectedStep" ng-model="selectedStep" ng-options="step for step in selectableDays">
+                </select>
             <div>
         </form> 
     </div>
